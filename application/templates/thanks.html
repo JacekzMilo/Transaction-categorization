@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank you</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,  maximum-scale=1, user-scalable=no">
+    <link href="{{ url_for('static', filename='selector_form.css') }}" rel="stylesheet"/>
+    <style>@font-face {
+    font-family: 'Messina Sans'; /*a name to be used later*/
+    src: url('/static/MessinaSans-Light.ttf'); /*URL to font*/
+}
+div {
+  font-family: Messina Sans;
+}
+</style>
+
+</head>
+<body>
+<!--<div class="watermark">-->
+<!--    <img src="{{ url_for('static', filename='watermark.png') }}">-->
+<!--</div>-->
+<div class="main">
+    <div class="content-welcome">
+        <div class="content-top">
+            <img src="{{ url_for('static', filename='Vrstva.png') }}">
+        </div>
+        <div class="content-top-img">
+            <img src="{{ url_for('static', filename='Frame.png') }}">
+        </div>
+        <div class="text">
+            <h1>Przesył danych zakończony!</h1>
+            <h2> Aby zobaczyć analizę na wykresie, przejdź na stronę: <b><a href="https://lookerstudio.google.com/s/iloPp3RIeAU">https://lookerstudio.google.com/s/iloPp3RIeAU</a></b>
+            </h2>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

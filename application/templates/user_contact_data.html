@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1">
+    <link href="{{ url_for('static', filename='selector_form.css') }}" rel="stylesheet"/>
+    <style>@font-face {
+    font-family: 'Messina Sans'; /*a name to be used later*/
+    src: url('/static/MessinaSans-Light.ttf'); /*URL to font*/
+}
+ div {
+  font-family: Messina Sans;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<div class="watermark">
+    <img src="{{ url_for('static', filename='watermark.png') }}">
+</div>
+<div class="main">
+
+    <div class="content-welcome">
+        <div class="content-top">
+            <img src="{{ url_for('static', filename='Vrstva.png') }}">
+        </div>
+        <div class="text">
+            <h1>Drogi Urzytkowniku,</h1>
+            <p class="content-top-text"> Wypełnij poniższy formularz w celu odpowiedniego katalogowania danych.
+            </p>
+        </div>
+        <div class="form-center">
+            <form method="POST" class="form">
+                <input type="text" name="User_name" placeholder="Imię" class="form-input">
+                <input type="text" name="User_last_name" placeholder="Nazwisko" class="form-input">
+                <input type="email" name="User_email" placeholder="Twój e-mail" class="form-input">
+                <input type="submit" value="Kontynuuj" class="form-button">
+            </form>
+            <p>Przez kliknięcie "Kontynuuj", wyrażam zgodę na przetwarzanie moich danych osobowych (imię,
+                nazwisko, adres e-mail) oraz na pasywny widok transakcji bankowych w celu przetestowania aplikacji
+                mobilnej.</p>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+
+.main {
+    text-align: center;
+}
+
+.content-top {
+}
+
+.content-welcome {
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-thx {
+max-width: 600px;
+height: 700px;
+position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.text {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.content-top-text {
+    font-size: 18px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-button {
+    color: #fff;
+    background: #009F5C;
+    border: 1px solid #009f5c;
+    box-shadow: 0px 4px 10px rgba(0, 159, 92, 0.3);
+    border-radius: 99px;
+    padding: 15px 30px;
+    font-weight: 600;
+    width: 300px;
+    cursor: pointer;
+    transition: all 150ms ease-in;
+}
+
+.form-button:hover {
+    background: #007f49;
+    border: 1px solid #007f49;
+    box-shadow: 0px 4px 7px rgb(0 159 92 / 45%);
+}
+
+.form-input:focus-visible {
+    outline: 0;
+    border: 1px solid rgba(49, 0, 111, 0.5);
+}
+
+
+
+.content-top-img {
+  position: relative;
+  align-items: center;
+  top: 30%;
+
+}
+
+@media (max-width: 768px){
+h2{
+text-align: center;
+  overflow-wrap: break-word;
+}
+h1{
+text-align: center;
+  overflow-wrap: break-word;
+  }
+
+/*.content-welcome{
+justify-content: left;
+}*/
+.form-center{
+top: 65%;
+position: relative;
+}
+}
+@media (max-width: 1050px){
+.form-center{
+top: 5%;
+position: relative;
+}}
+@media (max-width: 810px){
+.form-center{
+top: 10%;
+position: relative;
+}}
+@media (max-width: 680px){
+.form-center{
+top: 20%;
+position: relative;
+}}
+
+.form-input {
+    background: #fff;
+    border: 1px solid rgba(49,0,111,0.1);
+    border-radius: 99px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    width: 300px;
+}
+
+.content {
+  position: absolute;
+  display: inline-block;
+  margin: auto auto;
+  top: 45%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.watermark {
+    opacity: 0.5;
+    color: BLACK;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body {
+  background-color: white;
+  color: black;
+  margin: 0
+}
+
+
+
+input[type=email] {
+
+box-sizing: border-box;
+
+/* Auto layout */
+
+flex-direction: row;
+align-items: center;
+padding: 15px 20px;
+gap: 20px;
+
+width: 300px;
+height: 47px;
+
+/* White */
+
+background: #FFFFFF;
+/* Brand/7 - 10% */
+
+border: 1px solid rgba(49, 0, 111, 0.1);
+border-radius: 64px;
+
+/* Inside auto layout */
+
+flex: none;
+order: 0;
+/*align-self: stretch;*/
+flex-grow: 0;
+}
+
+
+
+h1 {
+  /* Není fér platit více */
+
+height: 30px;
+
+font-family: 'Messina Sans';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 30px;
+/* identical to box height, or 125% */
+
+
+/* Logo/Text */
+
+color: #31006F;
+
+/* Inside auto layout */
+
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+
+
+
+h2 {
+
+font-family: 'Messina Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 30px;
+
+/* Logo/Text */
+
+color: #31006F;
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+p {
+
+font-family: 'Messina Sans';
+font-style: normal;
+font-weight: 200;
+font-size: 15px;
+
+
+/* Logo/Text */
+
+color: #31006F;
+
+/* Inside auto layout */
+
+flex: none;
+order: 1;
+flex-grow: 0;
+}
+
+input[type=submit] {
+
+Type Secondary
+Hover No
+Icon No
+Width Fill (300px)
+Height Hug (47px)
+Top 171px
+Radius 24px
+Padding 15px, 30px, 15px, 30px
+Gap 10px
+Green X0 Y4 B10 S0
+#009F5C 30%
+/* Buttons */
+
+
+/* Auto layout */
+
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 15px 30px;
+gap: 10px;
+cursor: pointer;
+width: 300px;
+height: 47px;
+
+/* Green */
+
+background: #009F5C;
+/* Green */
+
+box-shadow: 0px 4px 10px rgba(0, 159, 92, 0.3);
+border-radius: 24px;
+
+/* Inside auto layout */
+
+flex: none;
+order: 3;
+/*align-self: stretch;*/
+flex-grow: 0;
+}
+
+
+
+
+
