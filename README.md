@@ -24,6 +24,12 @@ The bank data is delivered to Google Cloud Storage using the `app.py` applicatio
 
 - **HTML Pages**: The application includes HTML pages for user interaction and data presentation. These pages are designed to provide a user-friendly experience for uploading bank data.
 
+## Folder Structure
+
+- **application**: Contains frontend code, including `app.py` for uploading bank data.
+- **cloud_function**: Contains code for the Cloud Function responsible for data processing and loading into BigQuery.
+- **ML**: Contains code for training the ML model used in the Cloud Function for categorizing transactions.
+
 ## Deployment
 
 - **Cloud Function Deployment**: Deploy the Cloud Function on Google Cloud Platform. The function is triggered on bucket changes.
