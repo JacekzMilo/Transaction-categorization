@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Synchronization Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="static/nowy_css.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div class="main">
+    <!-- Sekcja z tekstem oraz przyciskami -->
+    <div class="content-left">
+        <div class="text">
+            <h1>Drogi Użytkowniku,</h1>
+            <p class="content-top-text">Kliknij w jeden z przycisków, aby zobaczyć raporty i zaktualizować dane.</p>
+            <p id="reqIdStatusMBank"></p>
+            <p id="reqIdStatusPKO"></p>
+        </div>
+        <div class="form-center">
+            <!-- Formularz do wyboru instytucji -->
+            <form method="POST" action="/select_req_id" class="form">
+                <button type="submit" name="institution_choice" value="mbank" class="form-button" id="mbankButton">
+                    MBank
+                    <img src="/static/xTkcEQACH24SMPxIQg.gif" class="loading-icon" id="mbankLoading" alt="Loading...">
+                </button>
+                <br>
+                <button type="submit" name="institution_choice" value="pko" class="form-button" id="pkoButton">
+                    PKO
+                    <img src="/static/xTkcEQACH24SMPxIQg.gif" class="loading-icon" id="pkoLoading" alt="Loading...">
+                </button>
+                <br>
+            </form>
+            <!-- Formularz do synchronizacji wszystkiego -->
+            <form method="POST" action="/sync_all" class="form">
+                <button type="button" id="syncAllButton" class="form-button">
+                    Synchronizuj Wszystko
+                    <img src="/static/xTkcEQACH24SMPxIQg.gif" class="loading-icon" id="syncAllLoading" alt="Loading...">
+                </button>
+                <br>
+                <button type="button" id="refreshButton" class="form-button">Odśwież autoryzację</button>
+
+            </form>
+            <div id="messageContainer">
+                <div id="authResult"></div>
+                <div id="result"></div>
+            </div>
+
+            <!-- Strzałka i napis do pokazania/ukrycia raportu -->
+            <div class="arrow-toggle" id="toggleReport">
+                <i class="arrow-right" id="arrowIcon"></i>
+                <span id="toggleText">Pokaż raport</span>
+            </div>
+
+
+        </div>
+
+        <!-- Kontener iframe dla raportu Google Data Studio (na początku ukryty) -->
+        <div class="iframe-container hidden" id="reportContainer">
+            <iframe id="dataStudioIframe"
+                    src="https://lookerstudio.google.com/embed/reporting/a6c2cdbe-730f-448a-bf03-3b2864290dc8/page/Sy8oD"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Skrypty obsługujące -->
+<script>
+    // Funkcja do rozwijania/zamykania raportu
+document.getElementById('toggleReport').addEventListener('click', function () {
+    const reportContainer = document.getElementById('reportContainer');
+    const arrowIcon = document.getElementById('arrowIcon');
+    const toggleText = document.getElementById('toggleText'); // Pobieramy element tekstowy
+
+    // Sprawdzamy, czy raport jest obecnie ukryty
+    if (reportContainer.classList.contains('hidden')) {
+        reportContainer.classList.remove('hidden'); // Pokaż raport
+        reportContainer.style.display = 'block'; // Upewnij się, że jest wyświetlany
+        arrowIcon.style.transform = 'rotate(135deg)'; // Obróć strzałkę w dół
+        toggleText.innerText = 'Schowaj raport'; // Zmieniamy tekst na "Schowaj raport"
+    } else {
+        reportContainer.classList.add('hidden'); // Ukryj raport
+        reportContainer.style.display = 'none'; // Ustaw, że jest niewidoczny
+        arrowIcon.style.transform = 'rotate(45deg)'; // Obróć strzałkę w prawo
+        toggleText.innerText = 'Pokaż raport'; // Zmieniamy tekst na "Pokaż raport"
+    }
+});
+
+
+
+
+
+
+// Wyświetlanie ikony ładowania dla MBank
+document.getElementById('mbankButton').addEventListener('click', async function() {
+    toggleLoading('mbankButton', 'mbankLoading', true); // Pokaż ikonę ładowania
+    await syncBank('mbank'); // Wykonaj synchronizację MBank
+    toggleLoading('mbankButton', 'mbankLoading', false); // Ukryj ikonę ładowania
+});
+
+// Wyświetlanie ikony ładowania dla PKO
+document.getElementById('pkoButton').addEventListener('click', async function() {
+    toggleLoading('pkoButton', 'pkoLoading', true); // Pokaż ikonę ładowania
+    await syncBank('pko'); // Wykonaj synchronizację PKO
+    toggleLoading('pkoButton', 'pkoLoading', false); // Ukryj ikonę ładowania
+});
+
+// Wyświetlanie ikony ładowania dla "Synchronizuj Wszystko"
+document.getElementById('syncAllButton').addEventListener('click', async function() {
+    toggleLoading('syncAllButton', 'syncAllLoading', true); // Pokaż ikonę ładowania
+    await syncAllBanks(); // Wykonaj synchronizację wszystkich banków
+    toggleLoading('syncAllButton', 'syncAllLoading', false); // Ukryj ikonę ładowania
+});
+
+// Funkcja do zarządzania synchronizacją MBank
+document.getElementById('mbankButton').addEventListener('click', async function(event) {
+    event.preventDefault(); // Zapobiegamy domyślnej akcji (przekierowania/przeładowania)
+    toggleLoading('mbankButton', 'mbankLoading', true); // Pokaż ikonę ładowania
+    await syncBank('mbank'); // Funkcja, która wykonuje synchronizację
+    toggleLoading('mbankButton', 'mbankLoading', false); // Ukryj ikonę ładowania
+});
+
+// Funkcja do zarządzania synchronizacją PKO
+document.getElementById('pkoButton').addEventListener('click', async function(event) {
+    event.preventDefault(); // Zapobiegamy domyślnej akcji (przekierowania/przeładowania)
+    toggleLoading('pkoButton', 'pkoLoading', true); // Pokaż ikonę ładowania
+    await syncBank('pko'); // Funkcja, która wykonuje synchronizację
+    toggleLoading('pkoButton', 'pkoLoading', false); // Ukryj ikonę ładowania
+});
+
+// Funkcja do synchronizacji wszystkich banków
+document.getElementById('syncAllButton').addEventListener('click', async function(event) {
+    event.preventDefault(); // Zapobiegamy domyślnej akcji
+    toggleLoading('syncAllButton', 'syncAllLoading', true); // Pokaż ikonę ładowania
+    await syncAllBanks(); // Funkcja synchronizacji wszystkich banków
+    toggleLoading('syncAllButton', 'syncAllLoading', false); // Ukryj ikonę ładowania
+});
+
+
+
+
+</script>
+
+<!-- Skrypty obsługujące -->
+<script>
+    // Wyświetlanie animacji ładowania
+    function toggleLoading(buttonId, loadingId, isLoading) {
+        const button = document.getElementById(buttonId);
+        const loadingIcon = document.getElementById(loadingId);
+        if (isLoading) {
+            button.disabled = true; // Wyłącz przycisk
+            loadingIcon.style.display = 'inline'; // Pokaż ikonę ładowania
+        } else {
+            button.disabled = false; // Włącz przycisk
+            loadingIcon.style.display = 'none'; // Ukryj ikonę ładowania
+        }
+    }
+
+    document.getElementById('syncAllButton').addEventListener('click', async function() {
+        toggleLoading('syncAllButton', 'syncAllLoading', true); // Pokaż ikonę ładowania
+        await syncAllBanks(); // Czekaj na zakończenie synchronizacji
+        toggleLoading('syncAllButton', 'syncAllLoading', false); // Ukryj ikonę ładowania
+    });
+
+    async function syncBank(bank) {
+      const url = `/api/fetchData`;
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ action: 'results', bank: bank })
+        });
+        const result = await response.json();
+        if (result.message.includes("No data to upload")) {
+          document.getElementById('result').innerText = `No data to upload for ${bank}. Possible reason: no transactions available.`;
+        } else {
+          document.getElementById('result').innerText = result.message;
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('result').innerText = 'Error during synchronization.';
+      }
+    }
+
+    async function syncAllBanks() {
+        const url = `/api/fetchData`;
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'sync_all' })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+
+            if (result.message) {
+                if (Array.isArray(result.message)) {
+                    document.getElementById('result').innerText = result.message.join('\n');
+                } else {
+                    document.getElementById('result').innerText = result.message;
+                }
+            } else if (result.error) {
+                document.getElementById('result').innerText = `Error: ${result.error}`;
+            } else {
+                document.getElementById('result').innerText = 'Unknown error occurred';
+            }
+        } catch (error) {
+            console.error('Error during synchronization:', error);
+            document.getElementById('result').innerText = `Error during synchronization: ${error.message}`;
+        }
+    }
+
+    // Inne funkcje
+    async function fetchReqIdStatus() {
+        try {
+            const response = await fetch('/api/req-id-status');
+            const data = await response.json();
+
+            if (data.mbankDaysRemaining >= 0) {
+                document.getElementById('reqIdStatusMBank').innerText = `MBank: Pozostało ${data.mbankDaysRemaining} dni do wygaśnięcia Req ID.`;
+            } else {
+                document.getElementById('reqIdStatusMBank').innerText = `MBank: Req ID wygasło. Proszę odświeżyć Req ID.`;
+            }
+
+            if (data.pkoDaysRemaining >= 0) {
+                document.getElementById('reqIdStatusPKO').innerText = `PKO: Pozostało ${data.pkoDaysRemaining} dni do wygaśnięcia Req ID.`;
+            } else {
+                document.getElementById('reqIdStatusPKO').innerText = `PKO: Req ID wygasło. Proszę odświeżyć Req ID.`;
+            }
+        } catch (error) {
+            console.error('Błąd podczas pobierania statusu req_id:', error);
+            document.getElementById('reqIdStatusMBank').innerText = 'Błąd podczas sprawdzania statusu Req ID dla MBank.';
+            document.getElementById('reqIdStatusPKO').innerText = 'Błąd podczas sprawdzania statusu Req ID dla PKO.';
+        }
+    }
+
+    window.onload = async function() {
+        await fetchReqIdStatus();
+    };
+
+</script>
+</body>
+</html>

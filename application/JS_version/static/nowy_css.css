@@ -1,0 +1,204 @@
+/* Importowanie czcionki */
+@font-face {
+    font-family: 'Messina Sans';
+    src: url('/static/MessinaSans-Light.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Messina Sans, Arial, sans-serif;
+    background-color: #1b1c1e; /* Ciemne tło */
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Zachowaj wyrównanie do góry */
+    height: auto; /* Dynamiczna wysokość */
+    min-height: 100vh; /* Minimum pełna wysokość viewportu */
+    width: 100vw;
+    overflow-x: hidden; /* Wyłącz przewijanie poziome */
+}
+
+.main {
+    width: 95vw;
+    min-height: 95vh; /* Ustaw minimalną wysokość na 95% */
+    height: auto; /* Dynamiczna wysokość w zależności od zawartości */
+    padding: 20px;
+    background-color: #26282b; /* Ciemniejszy kontener */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Pozwól na naturalne rozciąganie */
+    align-items: center; /* Wyśrodkowanie elementów */
+    position: relative;
+}
+
+.text h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #e2e2e2;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    text-align: center; /* Wyśrodkuj tekst nagłówka */
+}
+
+.text p {
+    font-size: 18px;
+    color: #b0b0b0;
+    margin-bottom: 20px;
+    text-align: center; /* Wyśrodkuj paragrafy */
+}
+
+.form-center {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Zajmij pełną szerokość */
+}
+
+#result {
+    margin-top: 10px; /* Margines nad komunikatem */
+    text-align: center; /* Wyśrodkowanie tekstu komunikatu */
+    width: 100%; /* Zapewnia, że komunikat rozciąga się na pełną szerokość */
+}
+
+button {
+    background-color: #0058cc;
+    color: white;
+    font-size: 18px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 300px;
+    min-width: 300px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    text-align: center;
+    align-items: center;
+}
+
+button .loading-icon {
+    display: none;
+    position: absolute;
+     right: -50px; /* Umieść ikonkę na prawo od przycisku */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+button.loading .loading-icon {
+    display: inline-block;
+}
+
+
+button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #388E3C;
+    transform: translateY(0);
+}
+
+.loading-icon {
+    display: none;
+    position: absolute;
+     right: -40px; /* Umieść ikonę po prawej stronie poza przyciskiem */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 100px;
+}
+
+.arrow-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.arrow-toggle span {
+    margin-left: 10px;
+}
+
+.arrow-right {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    padding: 5px;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+.arrow-down {
+    transform: rotate(135deg);
+}
+
+.iframe-container {
+    width: 90vw;
+    height: 80vh; /* Zajmij 80% wysokości ekranu */
+    margin-top: 20px;
+    display: none; /* Ukryj raport na początku */
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;/* Płynne przejście zmiany wysokości */
+
+}
+
+.iframe-container.expanded {
+    max-height: 80vh; /* Ustaw maksymalną wysokość po rozwinięciu */
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .iframe-container {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .form-center {
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Zapewnia wyśrodkowanie elementów w poziomie */
+    width: 100%; /* Ustaw pełną szerokość dla sekcji */
+    text-align: center; /* Wyrównanie tekstu do środka */
+    }
+
+    #messageContainer {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+
